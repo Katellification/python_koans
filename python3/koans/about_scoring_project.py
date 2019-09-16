@@ -32,9 +32,40 @@ from runner.koan import *
 #
 # Your goal is to write the score method.
 
+def three_of_a_kind(dice, value):
+    if len(dice) >= 3:
+        count_same_value = 0
+        for die in dice:
+            if die == value:
+                count_same_value += 1
+        if count_same_value >= 3:
+            return True
+    return False
+
 def score(dice):
-    # You need to write this method
-    pass
+    score = 0
+    if dice:
+        # * A set of three ones is 1000 points
+        if three_of_a_kind(dice, 1):
+            score += 1000
+            for _ in range(3):
+                dice.remove(1)
+        # * A set of three numbers (other than ones) is worth 100 times the
+        #   number. (e.g. three fives is 500 points).
+        for i in range(2,7):
+            if three_of_a_kind(dice, i):
+                score += 100*i
+                for _ in range(3):
+                    dice.remove(i)
+        # * A one (that is not part of a set of three) is worth 100 points.
+        while 1 in dice:
+            score += 100
+            dice.remove(1)
+        # * A five (that is not part of a set of three) is worth 50 points.
+        while 5 in dice:
+            score += 50
+            dice.remove(5)
+    return score
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):

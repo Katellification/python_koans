@@ -17,8 +17,18 @@
 #   about_triangle_project_2.py
 #
 def triangle(a, b, c):
-    # DELETE 'PASS' AND WRITE THIS CODE
-    pass
+    sides = set([a,b,c])
+    for s in sides:
+        if s <= 0:
+            raise TriangleError("This is not a real triangle")
+    if a+b < c or a+c < b or b+c < a:
+        raise TriangleError("This is not a real triangle")
+    if len(sides) == 1:
+        return 'equilateral'
+    elif len(sides) == 2:
+        return 'isosceles'
+    else:
+        return 'scalene'
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError(Exception):
